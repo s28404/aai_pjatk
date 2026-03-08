@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [ "**" ]
+  
+jobs:
+  quality:
+    name: Lint ${{ matrix.project }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [ "lab1" ]
+      fail-fast: false
+    
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: atral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+          enable-cache: true
+      
+      - name: Install dependencies
+        run: uv sync --frozen
+      
+      - name: Check Formatting
+        run: uv run ruff format --check .
+      
+      - name: Lint with Ruff
+        run: uv run ruff check .

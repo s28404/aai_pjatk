@@ -1,0 +1,13 @@
+.ruff_cache/
+.venv/
+
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.gz
+
+__pycache__/
+*.pth
+*.pt
+
